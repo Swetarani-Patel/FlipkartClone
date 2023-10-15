@@ -4,43 +4,15 @@ import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getProductByCategory } from "../../redux/actions/productAction";
+import { categoryMapping } from "./categoryMapping";
 
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleCategory = (category) => {
-    let modifiedCategory;
-
-    switch (category) {
-      case "Grocery":
-        modifiedCategory = "Grocery";
-        break;
-      case "Mobiles":
-        modifiedCategory = "Mobiles";
-        break;
-      case "Fashion":
-        modifiedCategory = "Fashion";
-        break;
-      case "Electronics":
-        modifiedCategory = "Electronics";
-        break;
-      case "Home & Furniture":
-        modifiedCategory = "Homefurniture";
-        break;
-      case "Appliances":
-        modifiedCategory = "Appliance";
-        break;
-      case "Beauty, Toys & More":
-        modifiedCategory = "Beautyandtoys";
-        break;
-      case "Two Wheelers":
-        modifiedCategory = "Twowheelers";
-        break;
-      default:
-        modifiedCategory = "Unknown";
-        break;
-    }
-    dispatch(getProductByCategory(modifiedCategory));
+    const modifiedCategory = categoryMapping(category);
+    dispatch(getProductByCategory(modifiedCategory,""));
+   
     navigate(`/product/category/${category}`);
   };
   return (
@@ -59,6 +31,7 @@ function Navbar() {
               src={items.url}
               alt="items"
               width="64"
+              style={{cursor:'pointer'}}
               onClick={() => handleCategory(items.text)}
             />
 

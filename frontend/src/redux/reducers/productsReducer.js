@@ -18,7 +18,9 @@ const detailinitState = {
 };
 
 const categoryInit = {
-  categoriesedProd: [],
+  categoriesedProd: localStorage.getItem("categorywise-product")
+  ? JSON.parse(localStorage.getItem("categorywise-product"))
+  : [],
 };
 export const getProductsReducer = (state = initState, action) => {
   switch (action.type) {

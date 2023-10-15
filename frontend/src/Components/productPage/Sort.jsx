@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 
-function Sort({ onSort }) {
+function Sort({ onSort, showDiscountOption }) {
   const [activeSort, setActiveSort] = useState("");
   const handleSort = (criteria) => {
     onSort(criteria);
@@ -16,7 +16,13 @@ function Sort({ onSort }) {
           (Showing 1 - 40 products of 20,487 products)
         </span>
       </Typography> */}
-      <Box display="flex" gap="15px" marginTop="9px" marginBottom="9px" marginLeft='10px'>
+      <Box
+        display="flex"
+        gap="15px"
+        marginTop="9px"
+        marginBottom="9px"
+        marginLeft="10px"
+      >
         <Typography fontSize="14px" fontWeight="600">
           {" "}
           Sort By
@@ -100,21 +106,23 @@ function Sort({ onSort }) {
           Newest First
         </Typography>
 
-        <Typography
-          onClick={() => {
-            handleSort("Discount");
-          }}
-          style={{
-            fontSize: "14px",
-            color: activeSort === "Discount" ? "#2874f0" : "black",
-            textDecoration: activeSort === "Discount" ? "underline" : "none",
-            fontWeight: activeSort === "Discount" ? "600" : "500",
-            cursor: "pointer",
-          }}
-        >
-          {" "}
-          Discount
-        </Typography>
+        {showDiscountOption && (
+          <Typography
+            onClick={() => {
+              handleSort("Discount");
+            }}
+            style={{
+              fontSize: "14px",
+              color: activeSort === "Discount" ? "#2874f0" : "black",
+              textDecoration: activeSort === "Discount" ? "underline" : "none",
+              fontWeight: activeSort === "Discount" ? "600" : "500",
+              cursor: "pointer",
+            }}
+          >
+            {" "}
+            Discount
+          </Typography>
+        )}
       </Box>
     </Box>
   );

@@ -55,7 +55,7 @@ function Product() {
         />
          
           <Box marginLeft="15px" width="100%" bgcolor="white">
-            <Sort onSort={onSort} />
+            <Sort onSort={onSort} showDiscountOption={true}/>
 
             <Box
               sx={{

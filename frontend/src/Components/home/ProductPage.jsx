@@ -1,87 +1,77 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LeftSideBar from "../productPage/LeftSideBar";
 import Sort from "../productPage/Sort";
 import ProductCard from "../productPage/ProductCard";
 import { useParams } from "react-router-dom";
-
+import { categoryMapping } from "./categoryMapping";
+import { getProductByCategory } from "../../redux/actions/productAction";
+import LeftBar from "./LeftBar";
 
 function ProductPage() {
-  const {category} = useParams()
-  console.log(category);
-  const { categoriesedProd } = useSelector((state) => state.getProductByCategoryReducer); 
-  // const [productsData, setProductsData] = useState(categoriesedProd);
-  
-
-  // useEffect(() => {
-   
-  //   setProductsData(filteredProduct);
-  // }, []);
-  const filteredProduct = categoriesedProd.filter(
-    (ele) => ele.category === category
+  const dispatch = useDispatch();
+  const { category } = useParams();
+  const modifiedCategory = categoryMapping(category);
+  const { categoriesedProd } = useSelector(
+    (state) => state.getProductByCategoryReducer
   );
-  console.log(filteredProduct)
-  
+  const [productsData, setProductsData] = useState([]);
 
-  const onSort = () => {
-    // const sortedProducts = sortProducts(criteria);
-    // setProductsData(sortedProducts);
+  useEffect(() => {
+    setProductsData(categoriesedProd);
+    localStorage.setItem('categorywise-product', JSON.stringify(categoriesedProd))
+  }, [categoriesedProd]);
+
+  const onSort = (criteria) => {
+    console.log(criteria);
+    const sortedProducts = sortProducts(criteria);
+    setProductsData(sortedProducts);
   };
   const sortProducts = (sortBy) => {
-    // const filteredProduct = products?.filter(
-    //   (ele) => ele.category === storedcategory || ele.tagline === storedtagline
-    // );
-    // if (sortBy === "Price -- Low to High") {
-    //   return filteredProduct.sort((a, b) => a.price.cost - b.price.cost);
-    // } else if (sortBy === "Price -- High to Low") {
-    //   return filteredProduct.sort((a, b) => b.price.cost - a.price.cost);
-    // } else if (sortBy === "Discount") {
-    //   return filteredProduct.sort((a, b) => {
-    //     const discountA = parseFloat(a.price.discount.replace("% off", ""));
-    //     const discountB = parseFloat(b.price.discount.replace("% off", ""));
-    //     return discountB - discountA;
-    //   });
-    // } else if (sortBy === "Rating") {
-    //   return filteredProduct.sort((a, b) => b.rating - a.rating);
-    // } else if (sortBy === "MRP") {
-    //   return filteredProduct.filter((elm) => elm.rating > 4);
-    // } else if (sortBy === "Newest First") {
-    //   return filteredProduct.filter((elm) => elm.rating <= 2);
-    // }
-    // return filteredProduct;
+    if (sortBy === "Price -- Low to High") {
+      dispatch(getProductByCategory(modifiedCategory, "asc_price"));
+    } else if (sortBy === "Price -- High to Low") {
+      dispatch(getProductByCategory(modifiedCategory, "desc_price"));
+    } else if (sortBy === "Rating") {
+      dispatch(getProductByCategory(modifiedCategory, "desc_rating"));
+    } else if (sortBy === "MRP") {
+      dispatch(getProductByCategory(modifiedCategory, "popularity"));
+    } else if (sortBy === "Newest First") {
+      dispatch(getProductByCategory(modifiedCategory, "newest_first"));
+    } else {
+      dispatch(getProductByCategory(modifiedCategory, ""));
+    }
   };
 
   return (
     <>
       <Box display="flex">
-        <LeftSideBar
-          
-        />
-         
-          <Box marginLeft="15px" width="100%" bgcolor="white">
-            <Sort onSort={onSort}/>
+        <LeftBar setProductsData={setProductsData}/>
 
-            <Box
-              sx={{
-                display: "grid",
-                borderTop: "2px solid #f0f0f0",
+        <Box marginLeft="15px" width="100%" bgcolor="white">
+          <Sort onSort={onSort} showDiscountOption={false}/>
 
-                gridTemplateColumns: {
-                  xs: "repeat(1, 1fr)",
-                  sm: "repeat(2, 1fr)",
-                  md: "repeat(3, 1fr)",
-                  lg: "repeat(4, 1fr)",
-                },
-                gap: "20px",
-              }}
-            >
-              {categoriesedProd.map((ele) => {
-                return <ProductCard key={ele.id} ele={ele}/>;
+          <Box
+            sx={{
+              display: "grid",
+              borderTop: "2px solid #f0f0f0",
+
+              gridTemplateColumns: {
+                xs: "repeat(1, 1fr)",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(4, 1fr)",
+              },
+              gap: "20px",
+            }}
+          >
+            {productsData &&
+              productsData.map((ele) => {
+                return <ProductCard key={ele.id} ele={ele} />;
               })}
-            </Box>
           </Box>
-        
+        </Box>
       </Box>
     </>
   );

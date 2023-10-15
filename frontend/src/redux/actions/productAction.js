@@ -29,9 +29,11 @@ export const getProductDetails = (id) => async (dispatch) => {
   }
 };
 
-export const getProductByCategory = (category) => async (dispatch) => {
+export const getProductByCategory = (category, sortBy) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`${URL}/product/category?category=${category}`);
+    const { data } = await axios.get(
+      `${URL}/product/category?category=${category}&sort=${sortBy}`
+    );
     dispatch({ type: GET_PRODUCT_CATEGORY_SUCCESS, payload: data });
   } catch (err) {
     dispatch({ type: GET_PRODUCT_CATEGORY_FAIL, payload: err.message });
