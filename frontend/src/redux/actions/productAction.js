@@ -1,8 +1,10 @@
 import axios from "axios";
 import {
   GET_PRODUCTS_FAIL,
+  GET_PRODUCTS_REQUEST,
   GET_PRODUCTS_SUCCESS,
   GET_PRODUCT_CATEGORY_FAIL,
+  GET_PRODUCT_CATEGORY_REQUEST,
   GET_PRODUCT_CATEGORY_SUCCESS,
   GET_PRODUCT_DETAIL_FAIL,
   GET_PRODUCT_DETAIL_REQUEST,
@@ -12,6 +14,7 @@ const URL = "http://localhost:8001";
 
 export const getProducts = () => async (dispatch) => {
   try {
+    dispatch({ type: GET_PRODUCTS_REQUEST });
     const { data } = await axios.get(`${URL}/products`);
     dispatch({ type: GET_PRODUCTS_SUCCESS, payload: data });
   } catch (err) {
@@ -31,6 +34,7 @@ export const getProductDetails = (id) => async (dispatch) => {
 
 export const getProductByCategory = (category, sortBy) => async (dispatch) => {
   try {
+    dispatch({ type: GET_PRODUCT_CATEGORY_REQUEST });
     const { data } = await axios.get(
       `${URL}/product/category?category=${category}&sort=${sortBy}`
     );

@@ -1,7 +1,9 @@
 import {
   GET_PRODUCTS_FAIL,
+  GET_PRODUCTS_REQUEST,
   GET_PRODUCTS_SUCCESS,
   GET_PRODUCT_CATEGORY_FAIL,
+  GET_PRODUCT_CATEGORY_REQUEST,
   GET_PRODUCT_CATEGORY_SUCCESS,
   GET_PRODUCT_DETAIL_FAIL,
   GET_PRODUCT_DETAIL_REQUEST,
@@ -10,6 +12,7 @@ import {
 } from "../actionTypes";
 
 const initState = {
+  loading: false,
   products: [],
 };
 
@@ -18,16 +21,19 @@ const detailinitState = {
 };
 
 const categoryInit = {
+  loading: false,
   categoriesedProd: localStorage.getItem("categorywise-product")
-  ? JSON.parse(localStorage.getItem("categorywise-product"))
-  : [],
+    ? JSON.parse(localStorage.getItem("categorywise-product"))
+    : [],
 };
 export const getProductsReducer = (state = initState, action) => {
   switch (action.type) {
+    case GET_PRODUCTS_REQUEST:
+      return { ...state, loading: true };
     case GET_PRODUCTS_SUCCESS:
-      return { products: action.payload };
+      return { ...state, loading: false, products: action.payload };
     case GET_PRODUCTS_FAIL:
-      return { error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
@@ -50,10 +56,22 @@ export const getProductDetailReducer = (state = detailinitState, action) => {
 
 export const getProductByCategoryReducer = (state = categoryInit, action) => {
   switch (action.type) {
+    case GET_PRODUCT_CATEGORY_REQUEST:
+      return { ...state, loading: true };
     case GET_PRODUCT_CATEGORY_SUCCESS:
-      return { categoriesedProd: action.payload, error:null };
+      return {
+        ...state,
+        loading: false,
+        categoriesedProd: action.payload,
+        error: null,
+      };
     case GET_PRODUCT_CATEGORY_FAIL:
-      return { categoriesedProd: [], error:action.payload };
+      return {
+        ...state,
+        loading: false,
+        categoriesedProd: [],
+        error: action.payload,
+      };
     default:
       return state;
   }

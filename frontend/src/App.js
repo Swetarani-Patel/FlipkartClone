@@ -8,6 +8,7 @@ import DetailView from "./Components/productDetails/DetailView";
 import Cart from "./Components/cart/Cart";
 import Product from "./Components/productPage/Product";
 import ProductPage from "./Components/home/ProductPage";
+import Paymentsucess from "./Components/cart/Paymentsucess";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/cart" element={<Cart/>}/>
             <Route path="/product" element={<Product/>}/>
             <Route path="/product/category/:category" element={<ProductPage />} />
+            <Route path="/paymentsuccess" element={<Paymentsucess/>}/>
           </Routes>
         </Box>
         </BrowserRouter>

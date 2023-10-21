@@ -4,8 +4,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions/cartAction";
-import { payUsingPaytm } from "../../service/api";
-import { post } from "../../utils/paytm";
+import { payUsingRazorPay } from "../../service/api";
+import { useStateContext } from "../../context/DataProvider";
+
 
 const LeftContainer = styled(Box)(({ theme }) => ({
   minWidth: "40%",
@@ -33,7 +34,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-function Items({ product }) {
+function Items({ product}) {
+ 
+  const { account } = useStateContext();
+ 
+
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = product;
@@ -56,17 +62,10 @@ function Items({ product }) {
     navigate("/cart");
   };
 
-  const buyNow = () => {
-    const response = payUsingPaytm({
-      amont: 500,
-      email: "swetaranipatel7@gmail.com",
-    });
-    const information = {
-      action: "https://securegw-stage.paytm.in/order/process",
-      params: response,
-    };
-    post(information);
+  const checkOutHandler = (amount) => {
+    payUsingRazorPay(amount, account)
   };
+
   return (
     <LeftContainer minWidth="40%" padding="40px 0 0 80px">
       <img
@@ -98,9 +97,7 @@ function Items({ product }) {
       )}
 
       <StyledButton
-        onClick={() => {
-          buyNow();
-        }}
+        onClick={()=>checkOutHandler(product.price.cost)}
         style={{ background: "#fb641b" }}
         variant="contained"
       >

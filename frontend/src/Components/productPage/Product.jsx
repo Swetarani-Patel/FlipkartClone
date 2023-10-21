@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
 import Sort from "./Sort";
 import LeftSideBar from "./LeftSideBar";
-
+import LoadingSkeleton from "../home/LoadingSkeleton";
+import ProductNotAva from "./ProductNotAva";
 
 function Product() {
-  const { products } = useSelector((state) => state.getProductsReducer);
+  const { products, loading } = useSelector(
+    (state) => state.getProductsReducer
+  );
   const storedcategory = localStorage.getItem("category");
   const storedtagline = localStorage.getItem("tagline");
   const [productsData, setProductsData] = useState(products);
@@ -47,21 +50,21 @@ function Product() {
     return filteredProduct;
   };
 
-  return (
-    <>
-      <Box display="flex">
-        <LeftSideBar
-          setProductsData={setProductsData}
-        />
-         
-          <Box marginLeft="15px" width="100%" bgcolor="white">
-            <Sort onSort={onSort} showDiscountOption={true}/>
+    console.log(productsData.length)
+    console.log(productsData);
 
+    return (
+      <>
+        <Box display="flex">
+          <LeftSideBar setProductsData={setProductsData} productsData={productsData} />
+  
+          <Box marginLeft="15px" width="100%" bgcolor="white">
+            <Sort onSort={onSort} showDiscountOption={true} />
+  
             <Box
               sx={{
                 display: "grid",
                 borderTop: "2px solid #f0f0f0",
-
                 gridTemplateColumns: {
                   xs: "repeat(1, 1fr)",
                   sm: "repeat(2, 1fr)",
@@ -71,15 +74,25 @@ function Product() {
                 gap: "20px",
               }}
             >
-              {productsData.map((ele) => {
-                return <ProductCard key={ele.id} ele={ele}/>;
-              })}
+              {loading ? (
+                <LoadingSkeleton totalLength={40} />
+              ) : (
+                productsData.length > 0 ? (
+                  <>
+                    {productsData.map((ele) => {
+                      return <ProductCard key={ele.id} ele={ele}/>;
+                    })}
+                  </>
+                ) : (
+                 <ProductNotAva/>
+                )
+              )}
             </Box>
           </Box>
-        
-      </Box>
-    </>
-  );
-}
+        </Box>
+      </>
+    );
+  }
+
 
 export default Product;

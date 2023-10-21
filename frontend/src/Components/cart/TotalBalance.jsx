@@ -1,5 +1,6 @@
 import { Box, Divider, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { payUsingPaytm } from "../../service/api";
 
 function TotalBalance({ cartItems }) {
   const [price, setPrice] = useState(0);
@@ -19,6 +20,10 @@ function TotalBalance({ cartItems }) {
     setPrice(price);
     setDiscount(discount);
   };
+
+
+ 
+  
   return (
     <Box>
       <Box padding="15px 24px" bgcolor="#fff" borderBottom="1px solid #f0f0f0">

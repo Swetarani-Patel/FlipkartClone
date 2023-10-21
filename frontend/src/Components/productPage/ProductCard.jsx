@@ -4,10 +4,12 @@ import { IoIosStar } from "react-icons/io";
 import { AiFillHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-function ProductCard({ ele }) {
+function ProductCard({ ele}) {
   const storedcategory = localStorage.getItem("category");
   const fassured =
     "https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png";
+
+    
   return (
     <Link
       to={`/product/${ele.id}`}
@@ -47,7 +49,7 @@ function ProductCard({ ele }) {
           style={{
             display: "-webkit-box",
             WebkitBoxOrient: "vertical",
-            WebkitLineClamp: 2,
+            WebkitLineClamp: 1,
             overflow: "hidden",
             textOverflow: "ellipsis",
             fontSize: "14px",
@@ -61,6 +63,7 @@ function ProductCard({ ele }) {
           fontWeight="600"
           display="flex"
           alignItems="center"
+         
         >
           <Box
             style={{
@@ -68,14 +71,16 @@ function ProductCard({ ele }) {
               padding: "0 5px",
               borderRadius: "4px",
               color: "white",
+            
+              
             }}
           >
             {" "}
-            {ele.rating} <IoIosStar fontSize="12px" />
+            {ele.rating} <IoIosStar fontSize="11px" />
           </Box>
 
           <span>
-            <img src={fassured} alt="" style={{ width: 77, marginLeft: 60 }} />
+            <img src={fassured} alt="" style={{ width: 58, marginLeft: 60 }} />
           </span>
         </Typography>
 

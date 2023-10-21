@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import CartItems from "./CartItems";
 import TotalBalance from "./TotalBalance";
 import EmptyCart from "./EmptyCart";
+import { payUsingRazorPay } from "../../service/api";
+import { useStateContext } from "../../context/DataProvider";
 
 const Component = styled(Grid)(({ theme }) => ({
   padding: "15px 5px",
@@ -22,8 +24,24 @@ const LeftComponent = styled(Grid)(({ theme }) => ({
 
 function Cart() {
   const { cartItems } = useSelector((state) => state.cartReducer);
+  const { account } = useStateContext();
+  const handlePayment = () => {
+    const totalAmount = calculateTotalAmount(cartItems);
+    payUsingRazorPay(totalAmount, account);
+  };
 
-  
+  const calculateTotalAmount = (items) => {
+    let price = 0;
+    let discount = 0;
+
+    items.forEach((item) => {
+      price += item.price.mrp * item.quantity;
+      discount += (item.price.mrp - item.price.cost) * item.quantity;
+    });
+
+    return price - discount + 40;
+  };
+
   return (
     <Box>
       {cartItems.length ? (
@@ -44,6 +62,7 @@ function Cart() {
               }}
             >
               <Button
+                onClick={handlePayment}
                 sx={{
                   display: "flex",
                   marginLeft: "auto",
@@ -54,7 +73,7 @@ function Cart() {
                   height: "51px",
                   fontWeight: "600",
                   fontSize: "16px",
-                  "&:hover": {
+                  hover: {
                     background: "#e15215",
                   },
                 }}

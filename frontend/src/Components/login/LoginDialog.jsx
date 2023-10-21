@@ -36,16 +36,23 @@ function LoginDialog({ open, setOpen }) {
     if (!response) {
       return;
     }
-   
-    setSignup("")
+
+    setSignup({
+      name: "",
+      email: "",
+      mobile: "",
+      password: "",
+    });
     setIsLogin(true);
-    
   };
 
   const loginUser = async () => {
     let response = await authenticateLogin(login);
     if (response.status === 200) {
-      setLogin("")
+      setLogin({
+        email: "",
+        password: "",
+      });
       handleClose();
       setAccount(response.data.data.name);
     } else {
@@ -55,8 +62,6 @@ function LoginDialog({ open, setOpen }) {
   const toggleSignup = () => {
     setIsLogin(!isLogin);
   };
-
-  
 
   const imgUrl =
     "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/login_img_c4a81e.png";
@@ -118,7 +123,7 @@ function LoginDialog({ open, setOpen }) {
               label="Enter Email/Mobile number"
               onChange={onValueChange}
               name="email"
-             
+              value={login.email}
             />
             {error && (
               <Typography
@@ -136,7 +141,7 @@ function LoginDialog({ open, setOpen }) {
               label="Enter Password"
               onChange={onValueChange}
               name="password"
-             
+              value={login.password}
             />
             <Typography sx={{ color: "#878787", fontSize: "13px" }}>
               By continuing, you agree to Flipkart's Terms of Use and Privacy
@@ -200,28 +205,28 @@ function LoginDialog({ open, setOpen }) {
               name="name"
               label="Enter Full Name"
               onChange={onInputChange}
-             
+              value={signup.name}
             />
             <TextField
               variant="standard"
               name="email"
               label="Enter Email"
               onChange={onInputChange}
-             
+              value={signup.email}
             />
             <TextField
               variant="standard"
               name="mobile"
               label="Enter Mobile Number"
               onChange={onInputChange}
-             
+              value={signup.mobile}
             />
             <TextField
               variant="standard"
               name="password"
               label="Enter Password"
               onChange={onInputChange}
-             
+              value={signup.password}
             />
             <Typography sx={{ color: "#878787", fontSize: "13px" }}>
               By continuing, you agree to Flipkart's Terms of Use and Privacy

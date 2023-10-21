@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import LeftSideBar from "../productPage/LeftSideBar";
 import Sort from "../productPage/Sort";
@@ -8,19 +8,24 @@ import { useParams } from "react-router-dom";
 import { categoryMapping } from "./categoryMapping";
 import { getProductByCategory } from "../../redux/actions/productAction";
 import LeftBar from "./LeftBar";
+import LoadingSkeleton from "./LoadingSkeleton";
+import ProductNotAva from "../productPage/ProductNotAva";
 
 function ProductPage() {
   const dispatch = useDispatch();
   const { category } = useParams();
   const modifiedCategory = categoryMapping(category);
-  const { categoriesedProd } = useSelector(
+  const { categoriesedProd, loading } = useSelector(
     (state) => state.getProductByCategoryReducer
   );
   const [productsData, setProductsData] = useState([]);
 
   useEffect(() => {
     setProductsData(categoriesedProd);
-    localStorage.setItem('categorywise-product', JSON.stringify(categoriesedProd))
+    localStorage.setItem(
+      "categorywise-product",
+      JSON.stringify(categoriesedProd)
+    );
   }, [categoriesedProd]);
 
   const onSort = (criteria) => {
@@ -47,10 +52,10 @@ function ProductPage() {
   return (
     <>
       <Box display="flex">
-        <LeftBar setProductsData={setProductsData}/>
+        <LeftBar setProductsData={setProductsData} />
 
         <Box marginLeft="15px" width="100%" bgcolor="white">
-          <Sort onSort={onSort} showDiscountOption={false}/>
+          <Sort onSort={onSort} showDiscountOption={false} />
 
           <Box
             sx={{
@@ -66,10 +71,23 @@ function ProductPage() {
               gap: "20px",
             }}
           >
-            {productsData &&
-              productsData.map((ele) => {
-                return <ProductCard key={ele.id} ele={ele} />;
-              })}
+            {loading ? (
+              <LoadingSkeleton totalLength={productsData.length} />
+            ) : productsData.length > 0 ? (
+              <>
+                {productsData.map((ele) => {
+                  return (
+                    <ProductCard
+                      key={ele.id}
+                      ele={ele}
+                      productsData={productsData}
+                    />
+                  );
+                })}
+              </>
+            ) : (
+              <ProductNotAva />
+            )}
           </Box>
         </Box>
       </Box>

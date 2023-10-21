@@ -5,7 +5,7 @@ import FilterBottom from "./FilterBottom";
 import { useSelector } from "react-redux";
 import { Ratings, Sizes, Colors, Discounts } from "../../constants/data";
 
-function LeftSideBar({ setProductsData, setSize }) {
+function LeftSideBar({ setProductsData}) {
   const [isRotatedRating, setIsRotatedRating] = useState(false);
   const [isRotatedSize, setIsRotatedSize] = useState(false);
   const [isRotatedDiscount, setIsRotatedDiscount] = useState(false);
@@ -88,6 +88,7 @@ function LeftSideBar({ setProductsData, setSize }) {
     if (updatedData.length > 0) {
       setProductsData(updatedData);
     }
+  
   };
 
   function handleCheckboxChangeForSize(elm) {
@@ -116,6 +117,7 @@ function LeftSideBar({ setProductsData, setSize }) {
     });
 
     setProductsData(updatedData);
+  
   }
 
   function handleCheckboxChangeForDiscount(elm) {
@@ -166,6 +168,7 @@ function LeftSideBar({ setProductsData, setSize }) {
     });
 
     setProductsData(updatedData);
+    
   }
 
   function handleCheckboxChangeForColor(elm) {
@@ -194,9 +197,13 @@ function LeftSideBar({ setProductsData, setSize }) {
       }
     });
     setProductsData(updatedData);
+    
+    
   }
+  
 
   return (
+    <>
     <Box bgcolor="#fff" width="30%" className="leftslider" height="80%">
       <Typography
         component="h2"
@@ -276,6 +283,7 @@ function LeftSideBar({ setProductsData, setSize }) {
         </Box>
       )}
     </Box>
+    </>
   );
 }
 

@@ -14,7 +14,7 @@ const FilterBottom = ({ value, onclick, type }) => {
         >
           <input
             type="checkbox"
-            style={{ border: 'none'}}
+            style={{ border: 'none', cursor:"pointer"}}
             onChange={() => onclick(elm)}
           />{" "}
           {elm}
