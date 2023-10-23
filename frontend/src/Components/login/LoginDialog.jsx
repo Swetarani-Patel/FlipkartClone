@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Dialog, TextField, Typography } from "@mui/material";
 import { authenticateLogin, authenticateSignup } from "../../service/api";
 import { useStateContext } from "../../context/DataProvider";
@@ -7,6 +7,13 @@ function LoginDialog({ open, setOpen }) {
   const { setAccount } = useStateContext();
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const userName = localStorage.getItem("user_name");
+    if (userName) {
+      setAccount(userName);
+    }
+  }, []);
 
   const [signup, setSignup] = useState({
     name: "",
@@ -55,6 +62,7 @@ function LoginDialog({ open, setOpen }) {
       });
       handleClose();
       setAccount(response.data.data.name);
+      localStorage.setItem("user_name", response.data.data.name);
     } else {
       setError(true);
     }

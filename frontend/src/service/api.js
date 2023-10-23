@@ -11,12 +11,18 @@ export const authenticateSignup = async (data) => {
 
 export const authenticateLogin = async (data) => {
   try {
-    return await axios.post(`${URL}/login`, data);
+    const response = await axios.post(`${URL}/login`, data);
+    // if (response.data && response.data.token) {
+    //   localStorage.setItem('access_token', response.data.token);
+    // }
+
+    return response;
   } catch (error) {
     console.log("error while calling login api", error);
     return error.response;
   }
 };
+
 
 export const payUsingRazorPay = async (amount, account) => {
   try {
