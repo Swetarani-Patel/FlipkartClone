@@ -1,11 +1,12 @@
 import { Box, Button, Grid, Typography, styled } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import CartItems from "./CartItems";
 import TotalBalance from "./TotalBalance";
 import EmptyCart from "./EmptyCart";
 import { payUsingRazorPay } from "../../service/api";
 import { useStateContext } from "../../context/DataProvider";
+
 
 const Component = styled(Grid)(({ theme }) => ({
   padding: "15px 5px",
@@ -23,11 +24,13 @@ const LeftComponent = styled(Grid)(({ theme }) => ({
 }));
 
 function Cart() {
+  
   const { cartItems } = useSelector((state) => state.cartReducer);
   const { account } = useStateContext();
   const handlePayment = () => {
     const totalAmount = calculateTotalAmount(cartItems);
     payUsingRazorPay(totalAmount, account);
+    
   };
 
   const calculateTotalAmount = (items) => {

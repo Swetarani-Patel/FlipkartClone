@@ -1,6 +1,7 @@
 import {
   ADD_TO_CART,
   DEC_QUANTITY,
+  EMPTY_CART,
   INC_QUANTITY,
   REMOVE_FROM_CART,
 } from "../actionTypes";
@@ -62,6 +63,10 @@ export const cartReducer = (
       });
       localStorage.setItem("cart", JSON.stringify(updatedDecArr));
       return { ...state, cartItems: updatedDecArr };
+
+      case EMPTY_CART:
+      localStorage.removeItem("cart");
+      return { ...state, cartItems: [] };
 
     default:
       return state;

@@ -11,9 +11,6 @@ function CartItems({ item }) {
     setIsModalOpen(true);
   };
 
- 
-
-
   const fassured =
     "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png";
   const date = new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000);

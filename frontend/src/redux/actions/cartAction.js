@@ -1,8 +1,8 @@
 import axios from "axios";
-import { ADD_TO_CART, ADD_TO_CART_ERROR, DEC_QUANTITY, INC_QUANTITY, REMOVE_FROM_CART } from "../actionTypes";
+import { ADD_TO_CART, ADD_TO_CART_ERROR, DEC_QUANTITY, EMPTY_CART, INC_QUANTITY, REMOVE_FROM_CART } from "../actionTypes";
 
 
-const URL = "http://localhost:8001";
+const URL = "https://flipkartclone-backend-7xx3.onrender.com";
 export const addToCart = (id)=>async(dispatch)=>{
     try{
      const {data} = await axios.get(`${URL}/product/${id}`)
@@ -24,3 +24,9 @@ export const incrementQuantity = (id)=>async(dispatch)=>{
 export const decrementQuantity = (id)=>async(dispatch)=>{
     dispatch({type:DEC_QUANTITY, payload:id})
 }
+
+
+
+export const emptyCart = () => {
+  return { type: EMPTY_CART };
+};

@@ -10,7 +10,7 @@ import {
   GET_PRODUCT_DETAIL_REQUEST,
   GET_PRODUCT_DETAIL_SUCCESS,
 } from "../actionTypes";
-const URL = "http://localhost:8001";
+const URL = "https://flipkartclone-backend-7xx3.onrender.com";
 
 export const getProducts = () => async (dispatch) => {
   try {

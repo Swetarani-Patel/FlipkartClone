@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "http://localhost:8001";
+const URL = "https://flipkartclone-backend-7xx3.onrender.com";
 
 export const authenticateSignup = async (data) => {
   try {
@@ -28,10 +28,10 @@ export const payUsingRazorPay = async (amount, account) => {
   try {
     const {
       data: { key },
-    } = await axios.get("http://localhost:8001/getkey");
+    } = await axios.get(`${URL}/getkey`);
     const {
       data: { order },
-    } = await axios.post("http://localhost:8001/payment", {
+    } = await axios.post(`${URL}/payment`, {
       amount,
     });
     var options = {
@@ -42,7 +42,7 @@ export const payUsingRazorPay = async (amount, account) => {
       description: "Test Transaction",
       image: "https://avatars.githubusercontent.com/u/128665200?v=4",
       order_id: order.id,
-      callback_url: "http://localhost:8001/paymentverification",
+      callback_url: `${URL}/paymentverification`,
       prefill: {
         name: account,
         email: "gaurav.kumar@example.com",
